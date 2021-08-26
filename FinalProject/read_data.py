@@ -41,33 +41,26 @@ def read_data(url):
     # làm đến đây , kiểm tra phần dưới phần chỉ số đúng chưa trả về kqua la xong
 
     # train data
-    print("---------------------------------------------")
     benign_train = benign[0: row_benign - 80, :]
-    print("benign_train.shape: ", benign_train.shape)
+    # print("benign_train.shape: ", benign_train.shape)
     malignant_train = malignant[0: row_malignant - 40, :]
-    print("malignant_train.shape: ", malignant_train.shape)
+    # print("malignant_train.shape: ", malignant_train.shape)
 
     # test data
-    benign_test = benign[row_data - 80: row_data, :]
-    print("benign_test.shape: ", benign_test.shape)
-    malignant_test = malignant[row_data - 40: row_data, :]
-    print("malignant_test.shape: ", malignant_test.shape)
-    print("---------------------------------------------")
+    benign_test = benign[row_benign - 80: row_benign, :]
+    # print("benign_test.shape: ", benign_test.shape)
+    malignant_test = malignant[row_malignant - 40: row_malignant, :]
+    # print("malignant_test.shape: ", malignant_test.shape)
 
-    X_train = data[0: row_data - 80, 2: row_data + 1]
-    y_train = data[0: row_data - 80:, 1]
+    train_data = np.concatenate((benign_train, malignant_train))
+    # print("train_data.shape: ", train_data.shape)
+
+    test_data = np.concatenate((benign_test, malignant_test))
+    # print("test_data.shape: ", test_data.shape)
+    X_train = train_data[:, 2: row_data + 1].astype(np.float)
+    y_train = train_data[:, 1].astype(np.float)
 
     # test data
-    X_test = data[0: row_data - 80, 2: row_data + 1]
-    y_test = data[0: row_data - 80, 2: row_data + 1]
-    return data, X_train, y_train
-
-
-#  (699, 9)
-#
-data, X, y = read_data(url_data)
-print(data)
-print(X.shape)
-
-# print(X)
-# print(y)
+    X_test = test_data[:, 2: row_data + 1].astype(np.float)
+    y_test = test_data[:, 1].astype(np.float)
+    return data, X_train, y_train, X_test, y_test
