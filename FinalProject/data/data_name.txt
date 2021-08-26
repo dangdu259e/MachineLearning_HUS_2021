@@ -1,0 +1,11 @@
+1. Mã số mẫu
+2. Loại: 2 cho lành tính, 4 cho ác tính (2 for benign, 4 for malignant)
+3. Độ dày hạch (Clump Thickness)
+4. Sự đồng nhất của kích thước tế bào (Uniformity of Cell Size)
+5. Tính đồng nhất của hình dạng tế bào (Uniformity of Cell Shape)
+6. Độ kết dính lề - biên (Marginal Adhesion)
+7. Kích thước tế bào biểu mô đơn (Single Epithelial Cell Size)
+8. Phần nhân ngoài (Bare Nuclei)
+9. Chất nhiễm sắc thể (Bland Chromatin)
+10. Nhân trong thường (Normal Nucleoli)
+11. Vỏ (Mitoses)
