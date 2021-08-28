@@ -1,7 +1,7 @@
 # import lib
 import numpy as np
 import read_data
-import evaluate_model
+import math
 
 
 # Hàm sigmoid
@@ -9,9 +9,22 @@ def sigmoid(z):
     return 1 / (1 + np.exp(-z))
 
 
+def accuracy(theta, x_train, y_train):
+    c = 0
+    n = len(x_train)
+    for i in range(n):
+        xi_vec = np.array([x_train[i]]).T
+        yi = y_train[i][0]
+        htheta_x = sigmoid(np.dot(theta.T, xi_vec))
+        if (htheta_x >= 0.5 and yi == 1):
+            c += 1
+        if (htheta_x < 0.5 and yi == 0):
+            c += 1
+    return str(100 * c / n) + "%"
+
+
 # Stochastic Gradient Descent
 def logistic_SGD_regression(X, y, alpha):
-    # alpha: learning rate => tốc độ học
     # thêm cột 1 vào ma trận đầu vào X
     X = np.array(X).T
     X = np.concatenate((np.ones((1, X.shape[1])), X), axis=0)
@@ -38,7 +51,6 @@ def logistic_SGD_regression(X, y, alpha):
     return theta[-1].T
 
 
-# hàm chuyển đầu ra của class y thành 0 và 1
 def formart_class(y):
     y_new = []
     for i in y:
@@ -50,7 +62,6 @@ def formart_class(y):
     return result
 
 
-# dự đoán đầu ra theo x
 # sigmoid(w^T * X_test)
 def guess_output(w, X_test):
     # thêm cột 1 vào ma trận đầu vào X
@@ -62,26 +73,20 @@ def guess_output(w, X_test):
     y_pred = sigmoid(np.dot(w, X_test.T))
     result = []
     for i in y_pred[0]:
-        if (i < 0.5):
+        if(i < 0.5):
             result.append(0)
         else:
             result.append(1)
     return np.array(result)
 
 
-if __name__ == '__main__':
-    url_data = "./data/data.txt"
-    data, X_train, y_train, X_test, y_test = read_data.read_data(url_data)
+url_data = "./data/data.txt"
+data, X_train, y_train, X_test, y_test = read_data.read_data(url_data)
 
-    # formart result => chuyển thành tập đích là 0 và 1
-    y_train = formart_class(y_train)
-    y_test = formart_class(y_test)
+y_train = formart_class(y_train)
+y_test = formart_class(y_test)
 
-    w = logistic_SGD_regression(X_train, y_train, 10 ** -6)
-    y_pred = guess_output(w, X_test)
-    print("y_pred: ")
-    print(y_pred)
-    print("y_origin: ")
-    print(y_test)
-    accuracy = evaluate_model.accuracy(y_pred=y_pred, y_true=y_test)
-    print("accuracy = " + str(accuracy * 100) + "%")
+w = logistic_SGD_regression(X_train, y_train, 10 ** -6)
+y_pred = guess_output(w, X_test)
+print(y_pred)
+print(y_test)

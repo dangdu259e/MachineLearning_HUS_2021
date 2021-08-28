@@ -21,9 +21,7 @@ df = pd.read_csv(
 )
 # format data input
 X = df.iloc[:, :57].to_numpy()
-print(X.shape)
 y = df[57].to_numpy()
-
 y.reshape((4601,1))
 y = np.array([y]).T
 
@@ -61,3 +59,15 @@ def logistic_SGD_regression(X, y, alpha):
             theta_new = theta_vector - alpha * htheta_x_yi * xi_vec
             theta.append(theta_new)
     return theta[-1]
+
+
+X_test = np.array(X).T
+X_test = np.concatenate((np.ones((1, X_test.shape[1])), X_test), axis=0)
+X_test = X_test.T
+print(X_test.shape)
+y_test = y
+print(y_test.shape)
+alpha = 10**-6
+theta = logistic_SGD_regression(X_test, y_test, alpha)
+print(theta.T)
+print("accuracy: "+ str(accuracy(theta, X_test, y_test)))
