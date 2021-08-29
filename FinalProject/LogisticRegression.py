@@ -77,11 +77,16 @@ if __name__ == '__main__':
     y_train = formart_class(y_train)
     y_test = formart_class(y_test)
 
+    # SGD => tối ưu hàm mất mát
+    print("Logistic Stochastic Gradient Descent Regression")
     w = logistic_SGD_regression(X_train, y_train, 10 ** -6)
     y_pred = guess_output(w, X_test)
     print("y_pred: ")
     print(y_pred)
     print("y_origin: ")
     print(y_test)
-    accuracy = evaluate_model.accuracy(y_pred=y_pred, y_true=y_test)
+    accuracy = evaluate_model.accuracy(y_true=y_test, y_pred=y_pred)
     print("accuracy = " + str(accuracy * 100) + "%")
+    (precision, recall) = evaluate_model.cm2pr_binary(y_true=y_test, y_pred=y_pred)
+    print("precision = " + str(precision))
+    print("recall = " + str(recall))
